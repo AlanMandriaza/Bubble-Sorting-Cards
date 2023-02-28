@@ -13,7 +13,7 @@ const pintas = [
 const containerElement = document.querySelector('#container');
 const buttonElement = document.getElementById('buttonElement');
 
-// Agregar evento click al botón
+
 function crearCarta(pintas, valores) {
   // Crear un nuevo elemento de carta
   const cartaElement = document.createElement('div');
@@ -46,11 +46,9 @@ function crearCarta(pintas, valores) {
   // Devolver el elemento de la carta
   return cartaElement;
 }
-buttonElement.addEventListener('click', function() {
-  // Crear una nueva carta y agregarla al contenedor
-  const cartaElement = crearCarta(pintas, valores);
-  containerElement.appendChild(cartaElement);
-});
+
+
+
 
 
 
@@ -72,7 +70,7 @@ boton.addEventListener('click', function() {
   for (let i = 0; i < cantidad; i++) {
     cartaElement = crearCarta(pintas, valores);
     cartasGeneradas.push(cartaElement);
-    historial.push(cartaElement);
+   
   }
 
   // Mostrar todas las cartas en el contenedor
@@ -84,5 +82,41 @@ boton.addEventListener('click', function() {
 
   historial.forEach(function(carta) {
     containerElement.appendChild(carta.cloneNode(true));
+  });
+  
+});
+
+//
+
+// Agregar evento click al botón Sort
+// Agregar evento click al botón Sort
+const sortButton = document.getElementById('sortButton');
+sortButton.addEventListener('click', function() {
+  // Ordenar las cartas usando Bubble Sort
+  for (let i = 0; i < cartasGeneradas.length; i++) {
+    for (let j = 0; j < cartasGeneradas.length - 1; j++) {
+      const cartaActual = cartasGeneradas[j];
+      const cartaSiguiente = cartasGeneradas[j + 1];
+      const valorActual = cartaActual.querySelector('.centro').textContent;
+      const valorSiguiente = cartaSiguiente.querySelector('.centro').textContent;
+      if (valores.indexOf(valorActual) > valores.indexOf(valorSiguiente)) {
+        cartasGeneradas[j] = cartaSiguiente;
+        cartasGeneradas[j + 1] = cartaActual;
+
+        // Mostrar las cartas después de cada movimiento
+        setTimeout(() => {
+          containerElement.innerHTML = '';
+          cartasGeneradas.forEach(function(carta) {
+            containerElement.appendChild(carta);
+          });
+        }, 100);
+      }
+    }
+  }
+
+  // Mostrar las cartas ordenadas en el contenedor
+  
+  cartasGeneradas.forEach(function(carta) {
+    containerElement.appendChild(carta);
   });
 });
