@@ -1,26 +1,38 @@
-.abajo, .arriba {
+/* Define card styles */
+.cardList {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	background-color: white;
+	border: 1px solid black;
+	border-radius: 5px;
+	box-shadow: 3px 3px 3px gray;
+	padding: 10px;
+	height: 200px;
+	width: 150px;
+	margin: 10px;
+	font-size: 1.2em;
+	text-align: center;
+  }
+  
+  .card .top {
 	font-size: 3em;
-}
-.abajo{
+  }
+  
+  .card .bottom {
+	font-size: 3em;
 	text-align: right;
-}
-.centro {
+  }
+  
+  .card .center {
 	font-size: 5em;
 	text-align: center;
-}
-
-.container {
+  }
+  
+  /* Define container styles */
+  .container {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
   }
   
-  .card {
-	flex-basis: 171px;
-	height: 114px;
-	margin: 10px;
-	
-  }
-  .row.card{
-	margin-right: 20px;
-  }

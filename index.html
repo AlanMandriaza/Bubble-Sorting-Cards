@@ -1,35 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-	<meta charset="UTF-8">
+	<head>
+		<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.bundle.min.js"></script>
-
-</head>
-
-<body>
-	<div>
-		<button type="button" id="buttonElement" class="btn btn-primary">Sort</button>
-	</div>
-	<div>
-		<button type="button" id="buttonElement" class="btn btn-primary">Generar</button>
-	</div>
-
-	<div class="form-floating mb-3">
-		<input type="email" class="form-control" id="inputc" placeholder="ingrese cantidad de cartas">
-		<label for="floatingInputDisabled">ingrese cantidad de cartas</label>
-	  </div>
-	  <button>Enviar resultados</button>
-
-
-	<div class="container" id="container">
-		</div>
-
-	<script src="app.js"></script>
-</body>
-
+		<title>Random Cards</title>
+		<link rel="stylesheet" type="text/css" href="styles.css">
+	  </head>
+	  <body>
+		<h1>Random Cards</h1>
+		<p>Number of cards: <input type="text" id="numCards" /></p>
+		<button id="drawCards">Draw Cards</button>
+		<button id="sortCards">Sort Cards</button>
+		<div id="cardList"></div>
+		<div id="log"></div>
+		<script src="script.js"></script>
+	  </body>
 </html>
