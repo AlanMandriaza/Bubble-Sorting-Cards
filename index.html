@@ -1,21 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8">
+
+<head>
+	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet">
-		<title>Random Cards</title>
-		<link rel="stylesheet" type="text/css" href="styles.css">
-	  </head>
-	  <body>
-		<h1>Random Cards</h1>
-		<p>Number of cards: <input type="text" id="numCards" /></p>
-		<button id="drawCards">Draw Cards</button>
-		<button id="sortCards">Sort Cards</button>
-		<div id="cardList"></div>
-		<div id="log"></div>
-		<script src="script.js"></script>
-	  </body>
+	<title>Random Cards</title>
+	<link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+
+<body>
+	<h1>Random Cards</h1>
+	<p>Number of cards: <input type="text" id="numCards" /></p>
+	<button id="drawCards">Draw Cards</button>
+	<button id="sortCards">Sort Cards</button>
+	<div id="cardList"></div>
+	<div id="logDiv">
+		<h2>History Log:</h2>
+		<div id="historyLog"></div>
+	</div>
+
+	<script src="script.js"></script>
+</body>
+
 </html>
