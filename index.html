@@ -1,28 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
-
-<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css" rel="stylesheet">
-	<title>Random Cards</title>
-	<link rel="stylesheet" type="text/css" href="styles.css">
-</head>
-
-<body>
-	<h1>Random Cards</h1>
-	<p>Number of cards: <input type="text" id="numCards" /></p>
-	<button id="drawCards">Draw Cards</button>
-	<button id="sortCards">Sort Cards</button>
-	<div id="cardList"></div>
-	<div id="logDiv">
-		<h2>History Log:</h2>
-		<div id="historyLog"></div>
-	</div>
-
-	<script src="script.js"></script>
-</body>
-
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Generador y ordenador de cartas</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="contenedor">
+      <h1>Generador y ordenador de cartas</h1>
+      <div class="contenedor-inputs">
+        <label for="num-cartas">Ingrese la cantidad de cartas a generar:</label>
+        <input type="number" id="num-cartas" min="1">
+        <button id="generar-cartas">Generar cartas</button>
+        <button id="ordenar-cartas">Ordenar cartas</button>
+      </div>
+      <div class="contenedor-cartas">
+        <div id="contenedor-cartas"></div>
+      </div>
+      <div class="contenedor-historial">
+        <h2>Historial de cambios de ordenamiento:</h2>
+        <div id="historial"></div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
 </html>

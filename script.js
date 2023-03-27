@@ -1,137 +1,122 @@
-// Define variables
-const numCardsInput = document.getElementById("numCards");
-const drawCardsButton = document.getElementById("drawCards");
-const sortCardsButton = document.getElementById("sortCards");
-const cardListDiv = document.getElementById("cardList");
-let cardList = [];
+// Variables globales
+let cartas = [];
+let historial = [];
 
-// Define functions
-function generateRandomCards(numCards) {
-  const suits = ["♥", "♦", "♣", "♠"];
-  const values = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
-  let cards = [];
-
-  for (let i = 0; i < numCards; i++) {
-    let suit = suits[Math.floor(Math.random() * suits.length)];
-    let value = values[Math.floor(Math.random() * values.length)];
-    let card = {
-      suit: suit,
-      value: value
-    };
-    cards.push(card);
+// Función para generar cartas nob aleatorias
+function generarCartas(numCartas) {
+  const palos = ['Oros', 'Copas', 'Espadas', 'Bastos'];
+  const numeros = ['As', '2', '3', '4', '5', '6', '7', 'Sota', 'Caballo', 'Rey'];
+  for (let i = 0; i < numCartas; i++) {
+    const palo = palos[Math.floor(Math.random() * palos.length)];
+    const numero = numeros[Math.floor(Math.random() * numeros.length)];
+    cartas.push({ numero, palo });
   }
-
-  return cards;
+  mostrarCartas();
 }
 
-function drawCards() {
-  // Get number of cards from input
-  const numCards = parseInt(numCardsInput.value);
+// Función para crear una carta nob con el número, palo y escudo dados
+function crearCartaNob(numero, palo) {
+  // Crear elementos de la carta
+  const divCarta = document.createElement('div');
+  divCarta.classList.add('carta');
 
-  // Generate random cards and display them
-  cardList = generateRandomCards(numCards);
+  const divNumero = document.createElement('div');
+  divNumero.classList.add('numero');
+  divNumero.textContent = numero;
 
-  // Clear the card list div before adding new cards
-  cardListDiv.innerHTML = "";
+  const divPalo = document.createElement('div');
+  divPalo.classList.add('palo');
+  divPalo.textContent = palo;
 
-  // Loop through the cards and create elements for each one
-  for (let i = 0; i < cardList.length; i++) {
-    let card = cardList[i];
-    let cardDiv = document.createElement("div");
-    cardDiv.classList.add("card");
-    cardDiv.innerHTML = `<span class="value">${card.value}</span><span class="suit">${card.suit}</span>`;
-    cardListDiv.appendChild(cardDiv);
+  const divEscudo = document.createElement('div');
+  divEscudo.classList.add('escudo');
+  const divEscudoTop = document.createElement('div');
+  divEscudoTop.classList.add('escudo-top');
+  const divEscudoBottom = document.createElement('div');
+  divEscudoBottom.classList.add('escudo-bottom');
+  divEscudo.appendChild(divEscudoTop);
+  divEscudo.appendChild(divEscudoBottom);
+
+  // Agregar elementos al DOM
+  divCarta.appendChild(divNumero);
+  divCarta.appendChild(divPalo);
+  divCarta.appendChild(divEscudo);
+  document.getElementById('contenedor-cartas').appendChild(divCarta);
+}
+
+// Función para mostrar las cartas generadas
+function mostrarCartas() {
+  const divCartas = document.getElementById('contenedor-cartas');
+  divCartas.innerHTML = '';
+  for (let carta of cartas) {
+    crearCartaNob(carta.numero, carta.palo);
   }
 }
 
-function bubbleSort() {
-  // Create a copy of the card list
-  let sortedList = [...cardList];
-
-  // Perform bubble sort and log each step
-  let len = sortedList.length;
-  const historyLog = document.getElementById("historyLog");
-  historyLog.innerHTML = "";
-  for (let i = 0; i < len - 1; i++) {
-    for (let j = 0; j < len - i - 1; j++) {
-      if (sortedList[j].value > sortedList[j + 1].value) {
-        let temp = sortedList[j];
-        sortedList[j] = sortedList[j + 1];
-        sortedList[j + 1] = temp;
-        let stepDiv = document.createElement("div");
-        stepDiv.classList.add("step");
-
-        // Create elements for the first card in the step
-        let card1Div = document.createElement("div");
-        card1Div.classList.add("card");
-        let valueSpan1 = document.createElement("span");
-        valueSpan1.classList.add("value");
-        valueSpan1.innerText = sortedList[j].value;
-        let suitSpan1 = document.createElement("span");
-        suitSpan1.classList.add("suit");
-        suitSpan1.innerText = sortedList[j].suit;
-        card1Div.appendChild(valueSpan1);
-        card1Div.appendChild(suitSpan1);
-        stepDiv.appendChild(card1Div);
-
-        // Add a separator between the two cards
-        let separatorSpan = document.createElement("span");
-        separatorSpan.classList.add("separator");
-      
-        stepDiv.appendChild(separatorSpan);
-
-        // Create elements for the second card in the step
-        let card2Div = document.createElement("div");
-        card2Div.classList.add("card");
-        let valueSpan2 = document.createElement("span");
-        valueSpan2.classList.add("value");
-        valueSpan2.innerText = sortedList[j + 1].value;
-        let suitSpan2 = document.createElement("span");
-        suitSpan2.classList.add("suit");
-        suitSpan2.innerText = sortedList[j + 1].suit;
-        card2Div.appendChild(valueSpan2);
-        card2Div.appendChild(suitSpan2);
-        stepDiv.appendChild(card2Div);
-
-        historyLog.appendChild(stepDiv);
+// Función para ordenar las cartas usando bubble sort
+function ordenarCartas() {
+  historial = []; // Limpiamos el historial
+  for (let i = 0; i < cartas.length - 1; i++) {
+    for (let j = 0; j < cartas.length - i - 1; j++) {
+      if (cartas[j].numero > cartas[j + 1].numero) {
+        // Intercambiar cartas
+        [cartas[j], cartas[j + 1]] = [cartas[j + 1], cartas[j]];
+        historial.push([...cartas]); // Guardamos una copia de las cartas en el historial
       }
     }
   }
-
-  // Update card list with sorted list
-  cardList = sortedList;
-
-  // Clear the card list div before adding sorted cards
-  cardListDiv.innerHTML = "";
-
-  // Loop through the sorted cards and create elements for each one
-  for (let i = 0; i < cardList.length; i++) {
-    let card = sortedList[i];
-    let cardDiv = document.createElement("div");
-    cardDiv.classList.add("card");
-
-    // Create elements for the value and suit of the card
-    let valueSpan = document.createElement("span");
-    valueSpan.classList.add("value");
-    valueSpan.innerText = card.value;
-
-    let suitSpan = document.createElement("span");
-    suitSpan.classList.add("suit");
-    suitSpan.innerText = card.suit;
-
-    // Add the value and suit elements to the card element
-    cardDiv.appendChild(valueSpan);
-    cardDiv.appendChild(suitSpan);
-
-    // Add the card element to the card list div
-    cardListDiv.appendChild(cardDiv);
-  }
+  mostrarCartas();
+  mostrarHistorial();
 }
 
-
-
-
-
-// Attach event listeners
-drawCardsButton.addEventListener("click", drawCards);
-sortCardsButton.addEventListener("click", bubbleSort);
+// Función para mostrar el historial de cambios de ordenamiento
+// Función para mostrar el historial de cambios de ordenamiento
+function mostrarHistorial() {
+  const divHistorial = document.getElementById('historial');
+  divHistorial.innerHTML = '';
+  for (let i = 0; i < historial.length; i++) {
+    const divCambio = document.createElement('div');
+    divCambio.classList.add('cambio');
+    for (let j = 0; j < historial[i].length; j++) {
+      const divCarta = document.createElement('div');
+      divCarta.classList.add('carta');
+      const divNumero = document.createElement('div');
+      divNumero.classList.add('numero');
+      divNumero.textContent = historial[i][j].numero;
+      const divPalo = document.createElement('div');
+      divPalo.classList.add('palo');
+      divPalo.textContent = historial[i][j].palo;
+      const divEscudo = document.createElement('div');
+      divEscudo.classList.add('escudo');
+      const divEscudoTop = document.createElement('div');
+      divEscudoTop.classList.add('escudo-top');
+      const divEscudoBottom = document.createElement('div');
+      divEscudoBottom.classList.add('escudo-bottom');
+      divEscudo.appendChild(divEscudoTop);
+      divEscudo.appendChild(divEscudoBottom);
+      divCarta.appendChild(divNumero);
+      divCarta.appendChild(divPalo);
+      divCarta.appendChild(divEscudo);
+      divCambio.appendChild(divCarta);
+    }
+    divHistorial.appendChild(divCambio);
+  }
+}
+// Agregar evento click al botón de generar cartas
+document.getElementById('generar-cartas').addEventListener('click', () => {
+  const numCartas = document.getElementById('num-cartas').value;
+  if (numCartas === '') {
+    alert('Ingrese la cantidad de cartas a generar.');
+  } else {
+    cartas = []; // Limpiar el arreglo de cartas
+    generarCartas(parseInt(numCartas));
+  }
+});
+// Agregar evento click al botón de ordenar cartas
+document.getElementById('ordenar-cartas').addEventListener('click', () => {
+  if (cartas.length === 0) {
+    alert('Primero genere las cartas.');
+  } else {
+    ordenarCartas();
+  }
+});
