@@ -1,7 +1,5 @@
-// Definir los valores de las cartas
 const valores = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
 
-// Definir las pintas de las cartas
 const pintas = [
   { simbolo: '♦', color: 'red' },
   { simbolo: '♥', color: 'red' },
@@ -9,21 +7,27 @@ const pintas = [
   { simbolo: '♣', color: 'black' }
 ];
 
-// Obtener los elementos HTML
 const containerElement = document.querySelector('#container');
 const buttonElement = document.getElementById('buttonElement');
+const historialContainer = document.getElementById('historialContainer');
+buttonElement.addEventListener('click', function () {
+  const cantidad = parseInt(document.getElementById('inputc').value);
 
+  containerElement.innerHTML = '';
+
+  for (let i = 0; i < cantidad; i++) {
+    const cartaElement = crearCarta(pintas, valores);
+    containerElement.appendChild(cartaElement);
+  }
+});
 
 function crearCarta(pintas, valores) {
-  // Crear un nuevo elemento de carta
   const cartaElement = document.createElement('div');
   cartaElement.classList.add('row', 'card');
 
-  // Seleccionar una pinta y un valor al azar
   const pintaAleatoria = pintas[Math.floor(Math.random() * pintas.length)];
   const valorAleatorio = valores[Math.floor(Math.random() * valores.length)];
 
-  // Crear los elementos para la carta
   const arribaElement = document.createElement('div');
   arribaElement.classList.add('col', 'arriba');
   arribaElement.textContent = pintaAleatoria.simbolo;
@@ -38,85 +42,48 @@ function crearCarta(pintas, valores) {
   abajoElement.textContent = pintaAleatoria.simbolo;
   abajoElement.style.color = pintaAleatoria.color;
 
-  // Agregar los elementos a la carta
   cartaElement.appendChild(arribaElement);
   cartaElement.appendChild(centroElement);
   cartaElement.appendChild(abajoElement);
 
-  // Devolver el elemento de la carta
   return cartaElement;
 }
 
-
-
-
-
-
-
-
-////intento de multiplicar
-const textarea = document.getElementById('inputc');
-const boton = document.createElement('button');
-boton.textContent = 'Enviar resultados';
-document.body.appendChild(boton);
-
-let cartaElement;
-let cartasGeneradas = [];
-let historial = [];
-
-boton.addEventListener('click', function() {
-  const cantidad = parseInt(textarea.value);
-
-  for (let i = 0; i < cantidad; i++) {
-    cartaElement = crearCarta(pintas, valores);
-    cartasGeneradas.push(cartaElement);
-   
-  }
-
-  // Mostrar todas las cartas en el contenedor
-  containerElement.innerHTML = '';
-
-  cartasGeneradas.forEach(function(carta) {
-    containerElement.appendChild(carta);
-  });
-
-  historial.forEach(function(carta) {
-    containerElement.appendChild(carta.cloneNode(true));
-  });
-  
-});
-
-//
-
-// Agregar evento click al botón Sort
-// Agregar evento click al botón Sort
 const sortButton = document.getElementById('sortButton');
-sortButton.addEventListener('click', function() {
-  // Ordenar las cartas usando Bubble Sort
+sortButton.addEventListener('click', async function () {
+  const cartasGeneradas = Array.from(containerElement.children);
+
   for (let i = 0; i < cartasGeneradas.length; i++) {
     for (let j = 0; j < cartasGeneradas.length - 1; j++) {
       const cartaActual = cartasGeneradas[j];
       const cartaSiguiente = cartasGeneradas[j + 1];
       const valorActual = cartaActual.querySelector('.centro').textContent;
       const valorSiguiente = cartaSiguiente.querySelector('.centro').textContent;
+
       if (valores.indexOf(valorActual) > valores.indexOf(valorSiguiente)) {
         cartasGeneradas[j] = cartaSiguiente;
         cartasGeneradas[j + 1] = cartaActual;
 
         // Mostrar las cartas después de cada movimiento
-        setTimeout(() => {
-          containerElement.innerHTML = '';
-          cartasGeneradas.forEach(function(carta) {
-            containerElement.appendChild(carta);
-          });
-        }, 100);
+        await new Promise(resolve => setTimeout(resolve, 100));
+        containerElement.innerHTML = '';
+        cartasGeneradas.forEach(function (carta) {
+          containerElement.appendChild(carta);
+        });
+
+        // Actualizar historial
+        const intercambioContainer = document.createElement('div');
+        intercambioContainer.classList.add('intercambio');
+        intercambioContainer.appendChild(clonarCarta(cartaActual));
+        intercambioContainer.appendChild(clonarCarta(cartaSiguiente));
+        historialContainer.appendChild(intercambioContainer);
       }
     }
   }
-
-  // Mostrar las cartas ordenadas en el contenedor
-  
-  cartasGeneradas.forEach(function(carta) {
-    containerElement.appendChild(carta);
-  });
 });
+
+function clonarCarta(carta) {
+  const cartaClonada = carta.cloneNode(true);
+  cartaClonada.classList.add('clon');
+  return cartaClonada;
+}
